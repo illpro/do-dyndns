@@ -1,0 +1,24 @@
+{
+  "name": "do-dns",
+  "version": "1.0.0",
+  "description": "Digital Ocean DNS Updater Daemon, like dyndns.",
+  "main": "main.js",
+  "scripts": {
+    "start": "ENV=debug && main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macguru2000/do-dns.git"
+  },
+  "keywords": [
+    "digitalocean",
+    "dns",
+    "dyndns"
+  ],
+  "author": "Zachary Segal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/macguru2000/do-dns/issues"
+  },
+  "homepage": "https://github.com/macguru2000/do-dns#readme"
+}
