@@ -2,30 +2,38 @@
 
 const publicIp = require('public-ip')
 const ip = require('ip')
-const {log, debug} = require('./log')
+const logger = require('./log')
 
 var state = {
     ip: null,
     pollFreq: process.env.POLL_FREQ || 5000
 }
 
-debug('poll frequency is', state.pollFreq, 'milliseconds')
+logger.debug(`poll frequency is ${state.pollFreq/1000} seconds`)
+
 
 async function pollIp () {
-    debug('running pollIp')
+    logger.profile('ran pollIp')
 
-    var i = await publicIp.v4({
-        timeout: 3000
-    })
+    var latest_public_ip = null
 
-    if (!state.ip || !ip.isEqual(i, state.ip)) {
-        state.ip = i
-        log('ip address changed!', i)
-    } else {
-        debug('ip is', i)
+    try {
+        latest_public_ip = await publicIp.v4({timeout: 3000})
+    } catch (err) {
+        logger.error(`cannot get public ip: ${err}`)
+        logger.profile('running pollIp')
+        return
     }
 
-    // start a thread to update the dns record
+    if (!state.ip || !ip.isEqual(latest_public_ip, state.ip)) {
+        state.ip = latest_public_ip
+        logger.warn(`ip address changed! ${latest_public_ip}`)
+        // start a thread to update the dns record
+    } else {
+        logger.debug(`ip is ${latest_public_ip}`)
+    }
+
+    logger.profile('ran pollIp')
 }
 
 

@@ -1,19 +1,24 @@
-const debug_on = process.env.DEBUG || false
+const path = require('path')
+const winston = require('winston')
 
-function log () {
-    let d = new Date().toISOString()
-    let a = [d, '-', ...arguments]
-    console.log.apply(null, a)
-}
+const log_file = path.join('/', 'var', 'log', 'do-dns.log')
+const log_format = winston.format.simple()
 
-function debug () {
-    if (!debug_on) {
-        return
-    }
-    log(...arguments)
-}
-
-module.exports = {
-    'log': log,
-    'debug': debug
+if (process.env.NODE_ENV === 'production') {
+    module.exports = winston.createLogger({
+        level: 'warn',
+        transports: [
+            new winston.transports.File({
+                'filename': log_file,
+                'format': log_format
+            })
+        ]
+    })
+} else {
+    module.exports = winston.createLogger({
+        level: 'warn',
+        transports: [
+            new winston.transports.Console({'format': log_format})
+        ]
+    })
 }

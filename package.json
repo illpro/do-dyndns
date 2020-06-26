@@ -4,7 +4,7 @@
   "description": "Digital Ocean DNS Updater Daemon, like dyndns.",
   "main": "main.js",
   "scripts": {
-    "start": "DEBUG=y node src/main.js",
+    "start": "NODE_ENV=develop node src/main.js",
     "install": "node src/install.js"
   },
   "repository": {
@@ -24,7 +24,8 @@
   "homepage": "https://github.com/macguru2000/do-dns#readme",
   "dependencies": {
     "ip": "^1.1.5",
-    "public-ip": "^4.0.1"
+    "public-ip": "^4.0.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.3.1"
