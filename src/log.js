@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     })
 } else {
     module.exports = winston.createLogger({
-        level: 'warn',
+        level: 'debug',
         transports: [
             new winston.transports.Console({'format': log_format})
         ]
