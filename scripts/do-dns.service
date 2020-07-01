@@ -1,0 +1,15 @@
+[Unit]
+Description=do-dns
+After=network.target
+
+[Service]
+ExecStart=/opt/illpro/do-dns/src/main.js
+Restart=always
+User=nobody
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/opt/illpro/do-dns/src/main.js
+
+[Install]
+WantedBy=multi-user.target
