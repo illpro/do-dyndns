@@ -3,9 +3,10 @@ module.exports = {
     'env': {
         'node': true,
         'browser': false,
+        'es6': true,
     },
     'parserOptions': {
-        'ecmaVersion': 8,
+        'ecmaVersion': 2019,
         'sourceType': 'module',
     },
     'rules': {
