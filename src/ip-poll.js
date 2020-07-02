@@ -29,7 +29,7 @@ async function _ipPoll () {
     let latest_public_ip = null
 
     try {
-        latest_public_ip = await publicIp.v4({timeout: 3000})
+        latest_public_ip = await publicIp.v4({'timeout': 3000, 'onlyHttps': true})
     } catch (err) {
         logger.error(`cannot get public ip: ${err}`)
         logger.profile('ran ipPoll')
