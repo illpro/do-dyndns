@@ -20,7 +20,7 @@ function loadDoToken (tokenFile) {
             logger.debug(`looking for ${tokenFile}`)
 
             fs.exists(tokenFile, (exists) => {
-                logger.debug(`${exists?'found':'cannot find'} ${tokenFile}`)
+                logger.debug(`${(exists)?'found':'cannot find'} ${tokenFile}`)
 
                 if (!exists) {
                     reject({
@@ -63,7 +63,7 @@ async function newClient () {
         try {
             result = await loadDoToken(tokenPath)
         } catch (err) {
-            logger.warn(`cannot load digital ocean api token "${err.msg} "${err.error}}"`)
+            logger.warn(`cannot load digital ocean api token "${err.msg} "${err.error}"`)
         }
 
         if (result && result.token) {

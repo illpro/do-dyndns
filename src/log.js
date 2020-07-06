@@ -1,6 +1,18 @@
+const os = require('os')
 const path = require('path')
 const winston = require('winston')
-const log_format = winston.format.simple()
+
+const hostname = os.hostname()
+
+const timestampFormat = { 'format': 'YYYY-MM-DD HH:mm:ss' }
+
+const logfileFormat = winston.format.printf(({level, message, timestamp}) => {
+    return `${timestamp} ${hostname} [${level}] ${message}`
+})
+
+const consoleFormat = winston.format.printf(({level, message}) => {
+    return `[${level}] ${message}`
+})
 
 if (process.env.NODE_ENV === 'production') {
     var log_file = path.join('/', 'var', 'log', 'do-dyndns.log')
@@ -15,7 +27,10 @@ if (process.env.NODE_ENV === 'production') {
         transports: [
             new winston.transports.File({
                 'filename': log_file,
-                'format': log_format
+                'format': winston.format.combine(
+                    winston.format.timestamp(timestampFormat),
+                    logfileFormat,
+                ),
             })
         ]
     })
@@ -23,7 +38,11 @@ if (process.env.NODE_ENV === 'production') {
     module.exports = winston.createLogger({
         level: 'debug',
         transports: [
-            new winston.transports.Console({'format': log_format})
+            new winston.transports.Console({
+                'format': winston.format.combine(
+                    consoleFormat,
+                ),
+            })
         ]
     })
 }
