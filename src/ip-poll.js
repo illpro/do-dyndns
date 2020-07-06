@@ -99,10 +99,25 @@ function stopPoll () {
     clearInterval(intervalId)
 }
 
+function parseSeconds (string) {
+    let number = parseFloat(string)
+    if (number >= 1) {
+        number = 1000 * number
+        number = Math.round(number)
+    } else {
+        logger.warn(`poller configuration, bad value ${number}`)
+        number = 8
+        logger.warn(`poller frequency set to default ${number} seconds`)
+    }
+
+    return number
+}
+
 
 
 module.exports = {
     'setup': setup,
     'start': startPoll,
     'stop':  stopPoll,
+    'parseSeconds': parseSeconds,
 }
