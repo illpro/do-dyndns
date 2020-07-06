@@ -87,7 +87,7 @@ async function getDomainRecord (client, name, domain) {
     try {
         response = await client.domains.getAllRecords(domain, null, false, 1, 50)
     } catch (err) {
-        log_error('cannot load all domain records', err)
+        log_error('cannot load all domain records', JSON.stringify(err))
         return err
     }
 
@@ -121,7 +121,7 @@ async function createDomainRecord (client, name, domain, ttl, ip) {
             ttl: ttl,
         })
     } catch (err) {
-        log_error('cannot create domain record', err)
+        log_error('cannot create domain record', JSON.stringify(err))
         return err
     }
 
@@ -140,7 +140,7 @@ async function updateDomainRecord (client, domain, id, ip) {
             data: ip,
         })
     } catch (err) {
-        log_error('cannot update domain record', err)
+        log_error('cannot update domain record', JSON.stringify(err))
         return err
     }
 

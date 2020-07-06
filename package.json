@@ -4,8 +4,8 @@
   "description": "Digital Ocean DNS Updater Daemon, like dyndns.",
   "main": "main.js",
   "scripts": {
-    "start": "NODE_ENV=develop node src/main.js",
-    "app-install": "NODE_ENV=production node scripts/install.js"
+    "start": "node src/main.js",
+    "app-install": "node scripts/install.js"
   },
   "repository": {
     "type": "git",

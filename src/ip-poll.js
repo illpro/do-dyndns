@@ -83,12 +83,16 @@ async function setup (options) {
     if (record && record.id) {
         domain_record.id = record.id
         domain_record.ip = record.data
+        let a
+        a = `${record.name}.${DNS_DOMAIN}. ${record.ttl}`
+        a = `${a} IN ${record.type} ${record.data}`
+        logger.info(`poller:setup found dns record. ${a}`)
     }
 }
 
 // start checking the computer public ip every so ofter
 async function startPoll (frequency) {
-    logger.debug(`poller:start ${frequency}`)
+    logger.info(`poller:run every ${frequency/1000} seconds`)
 
     _ipPoll()
     frequency = frequency || 5000
@@ -97,7 +101,7 @@ async function startPoll (frequency) {
 
 // stop polling
 function stopPoll () {
-    logger.debug('poller:stop')
+    logger.info('poller:stop')
     clearInterval(intervalId)
 }
 
