@@ -59,6 +59,7 @@ async function newClient () {
 
     for (let i=0; i < tokenPaths.length; i++) {
         tokenPath = tokenPaths[i]
+
         try {
             result = await loadDoToken(tokenPath)
         } catch (err) {
@@ -70,8 +71,8 @@ async function newClient () {
         }
     }
 
-    if (result && result.token) {
-        return new DigitalOcean(result.token)
+    if (result && result.token && result.token.trim()) {
+        return new DigitalOcean(result.token.trim())
     } else {
         throw new Error('fatal error. no digital ocean api token.')
     }
