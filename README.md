@@ -4,18 +4,19 @@ This module is designed to update Digital Ocean DNS records with the server's
 public IP address. The process monitors the server's public IP, and when 
 necessary, creates or updates a DNS A record using the Digital Ocean API.
 
-First you will need to generate an API access token from Digital Ocean and 
-create a `do.token` file in any of these locations:
+First you will need to generate a [Personal Access Token][1] from Digital Ocean
+and place it into a `do.token` file in any of these locations:
 
-    # create toke in the project directory
-    echo "aaaabbbbbcccccc" | sudo tee /full/path/to/project/do.token
+
+    # create token file in the project directory to paste into
+    sudo vi /full/path/to/project/do.token
     
-    # create token file in the app etc config
+    # create token file in the app etc config to paste into
     sudo mkdir -p /etc/illpro/do-dns
-    echo "aaaabbbbbcccccc" | sudo tee /etc/illpro/do-dns/do.token
+    sudo vi /etc/illpro/do-dns/do.token
 
-    # create token file in the shell home directory
-    echo "aaaabbbbbcccccc" | tee ${HOME}/do.token
+    # create token file in the shell home directory to paste into
+    sudo vi ${HOME}/do.token
 
 Once you have made the `do.token` file, you need to finish configuration, in
 particular you will need to define the domain you want to control with Dynamic
@@ -47,17 +48,22 @@ Number of seconds between public ip polls, defaults to 8 seconds.
     export POLL_FREQUENCY=10
 
 **LOG_PATH** (optional)  
-Path where logs will be written, defaultas to /var/log/do-dns.log. File should be writable by the process owner
+Path where logs should be written, defaults to `/var/log/do-dns.log`. File
+should be writable by the process owner.
 
     export LOG_PATH=/my/path/do-dns.log
 
 
 ## notes
 * Currently this only works with a single (1) domain.
-* Project is in progres, use at you own risk ;)
-* Uses Digital Ocean API v2
-* Referenced the great [Deploy Node on Linux][1] doc during development
+* Project is in progress, use at you own risk ;)
+* Uses [Digital Ocean API v2][2] and [do-wrapper][3].
+* Referenced the great [Deploy Node on Linux][4] doc during development.
 
 
 
-[1]: https://expeditedsecurity.com/blog/deploy-node-on-linux/
+
+[1]: https://www.digitalocean.com/docs/apis-clis/api/create-personal-access-token/
+[2]: https://developers.digitalocean.com/documentation/v2/
+[3]: https://www.npmjs.com/package/do-wrapper
+[4]: https://expeditedsecurity.com/blog/deploy-node-on-linux/
