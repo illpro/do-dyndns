@@ -3,7 +3,7 @@ const winston = require('winston')
 const log_format = winston.format.simple()
 
 if (process.env.NODE_ENV === 'production') {
-    var log_file = path.join('/', 'var', 'log', 'do-dns.log')
+    var log_file = path.join('/', 'var', 'log', 'do-dyndns.log')
     if (process.env.LOG_PATH) {
         log_file = process.env.LOG_PATH
     }

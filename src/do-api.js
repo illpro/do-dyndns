@@ -6,7 +6,7 @@ const logger = require('./log')
 
 const tokenPaths = [
     path.resolve('do.token'),
-    path.join('/', 'etc', 'illpro', 'do-dns', 'do.token'),
+    path.join('/', 'etc', 'illpro', 'do-dyndns', 'do.token'),
     path.join((process.env.HOME), 'do.token'),
 ]
 

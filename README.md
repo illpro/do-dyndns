@@ -12,8 +12,8 @@ and place it into a `do.token` file in any of these locations:
     sudo vi /full/path/to/project/do.token
     
     # create token file in the app etc config to paste into
-    sudo mkdir -p /etc/illpro/do-dns
-    sudo vi /etc/illpro/do-dns/do.token
+    sudo mkdir -p /etc/illpro/do-dyndns
+    sudo vi /etc/illpro/do-dyndns/do.token
 
     # create token file in the shell home directory to paste into
     sudo vi ${HOME}/do.token
@@ -48,10 +48,10 @@ Number of seconds between public ip polls, defaults to 8 seconds.
     export POLL_FREQUENCY=10
 
 **LOG_PATH** (optional)  
-Path where logs should be written, defaults to `/var/log/do-dns.log`. File
+Path where logs should be written, defaults to `/var/log/do-dyndns.log`. File
 should be writable by the process owner.
 
-    export LOG_PATH=/my/path/do-dns.log
+    export LOG_PATH=/my/path/do-dyndns.log
 
 
 ## notes
