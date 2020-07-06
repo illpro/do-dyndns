@@ -5,13 +5,13 @@ After=network.target
 [Service]
 ExecStart=/opt/illpro/do-dns/src/main.js
 Restart=always
-User=nobody
+User=root
 Group=nogroup
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=NODE_ENV=production
 Environment=DNS_DOMAIN=
 Environment=DNS_NAME=
-WorkingDirectory=/opt/illpro/do-dns/src/main.js
+WorkingDirectory=/opt/illpro/do-dns
 
 [Install]
 WantedBy=multi-user.target
