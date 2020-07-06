@@ -1,16 +1,18 @@
 // imports
-const DO = require('./do-api')
-const logger = require('./log')
 const ip = require('ip')
 const publicIp = require('public-ip')
+
+// project imports
+const DO = require('./do-api')
+const logger = require('./log')
 
 // digital ocean client instance, make api call with this
 var client
 
 // store digital ocean domain record id and ip address 
 var domain_record = {
-    id: null,
-    ip: null,
+    'id': null,
+    'ip': null,
 }
 
 // domain config "globals" that should be configured with setup() below

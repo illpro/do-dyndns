@@ -10,3 +10,4 @@ jspm_packages/
 
 # Access token file should not be recorded in git
 do_access.token
+do.token

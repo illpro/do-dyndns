@@ -1,29 +1,51 @@
-
-const DigitalOcean = require('do-wrapper').default
 const fs = require('fs')
-const logger = require('./log')
 const path = require('path')
+const DigitalOcean = require('do-wrapper').default
 
-const tokenFile = path.join('.', 'do_access.token')
+const logger = require('./log')
+
+const tokenPaths = [
+    path.resolve('do.token'),
+    path.join('/', 'etc', 'illpro', 'do-dns', 'do.token'),
+    path.join((process.env.HOME), 'do.token'),
+]
 
 function log_error(msg, err) {
     logger.error(`${msg} ${JSON.stringify(err)}`)
 }
 
 // load token from the path specified above
-function loadDoToken () {
+function loadDoToken (tokenFile) {
     return new Promise((resolve, reject) => {
-        fs.exists(tokenFile, function (exists) {
-            if (!exists) {
-                reject('token file is missing')
-            }
-            fs.readFile(tokenFile, 'utf8', function (err, token) {
-                if (err) {
-                    reject(err)
+            logger.debug(`looking for ${tokenFile}`)
+
+            fs.exists(tokenFile, (exists) => {
+                logger.debug(`${exists?'found':'cannot find'} ${tokenFile}`)
+
+                if (!exists) {
+                    reject({
+                        'msg': 'token file missing',
+                        'error': tokenFile,
+                    })
+                    return
                 }
-                resolve(token)
+
+                logger.debug(`trying to read ${tokenFile}`)
+                fs.readFile(tokenFile, 'utf8', function (err, token) {
+                    if (err) {
+                        reject({
+                            'msg': 'token file unreadable',
+                            'error': err,
+                        })
+                        return
+                    }
+
+                    logger.debug(`read ${tokenFile}`)
+                    resolve({
+                        'token': token,
+                    })
+                })
             })
-        })
     })
 }
 
@@ -32,18 +54,27 @@ function loadDoToken () {
 async function newClient () {
     logger.debug('DO:newClient')
 
-    let token
-    try {
-        token = await loadDoToken()
-    } catch (err) {
-        log_error('cannot load digital ocean api token.', err)
+    let result
+    let tokenPath
+
+    for (let i=0; i < tokenPaths.length; i++) {
+        tokenPath = tokenPaths[i]
+        try {
+            result = await loadDoToken(tokenPath)
+        } catch (err) {
+            logger.warn(`cannot load digital ocean api token "${err.msg} "${err.error}}"`)
+        }
+
+        if (result && result.token) {
+            break
+        }
     }
 
-    if (token) {
-        return new DigitalOcean(token)
+    if (result && result.token) {
+        return new DigitalOcean(result.token)
     } else {
-        return 
-    }    
+        throw new Error('fatal error. no digital ocean api token.')
+    }
 }
 
 // search all the dns records for the specified domain, looking for one that
