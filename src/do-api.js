@@ -132,13 +132,14 @@ async function createDomainRecord (client, name, domain, ttl, ip) {
 }
 
 // update the digital ocean domain record with this computer's public ip.
-async function updateDomainRecord (client, domain, id, ip) {
+async function updateDomainRecord (client, domain, ttl, id, ip) {
     logger.debug(`DO:updateDomainRecord ${domain} ${id} ${ip}`)
 
     let response
     try {
         response = await client.domains.updateRecord(domain, id, {
             data: ip,
+            ttl: ttl,
         })
     } catch (err) {
         log_error('cannot update domain record', JSON.stringify(err))

@@ -53,7 +53,8 @@ async function _ipPoll () {
         let ip = domain_record.ip
 
         if (domain_record.id) {
-            await DO.updateDomainRecord(client, DNS_DOMAIN, id, ip)
+            let args = [client, DNS_DOMAIN, DNS_TTL, id, ip]
+            await DO.updateDomainRecord.apply(null, args)
         } else {
             let args = [client, DNS_NAME, DNS_DOMAIN, DNS_TTL, ip]
             let record = await DO.createDomainRecord.apply(null, args)
