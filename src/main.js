@@ -19,10 +19,9 @@ if (!DNS_NAME) {
 }
 
 logger.info('---- starting main process ----')
-logger.info(`domain to update is ${DNS_DOMAIN}`)
-logger.info(`dns record name (subdomain) will be ${DNS_NAME}`)
+logger.info(`domain to update will be ${DNS_NAME}.${DNS_DOMAIN}`)
 logger.info(`dns record ttl will be ${DNS_TTL} seconds`)
-logger.info(`ip poll frequency is ${POLL_FREQUENCY/1000} seconds`)
+logger.info(`ip poll frequency will be ${POLL_FREQUENCY/1000} seconds`)
 
 async function main () {
     await poller.setup({
