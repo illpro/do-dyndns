@@ -20,21 +20,28 @@ var DNS_NAME
 var DNS_DOMAIN
 var DNS_TTL
 
-// 
+// stores the main interval id
 var intervalId = null
+
+// polling statistics
+var pollCounts = {
+    'success': 0,
+    'failure': 0,
+}
+
+// tracks hour the "top of the hour" log is made
+var lastHour = new Date().getHours()
+
 
 // poll a public ip service for the computer's public ip address.
 async function _ipPoll () {
-
-    // logger.profile('ran ipPoll')
-
     let latest_public_ip = null
 
     try {
         latest_public_ip = await publicIp.v4({'timeout': 3000, 'onlyHttps': true})
     } catch (err) {
-        logger.error(`cannot get public ip: ${err}`)
-        logger.profile('ran ipPoll')
+        pollCounts.failure += 1
+        logger.error(JSON.stringify(err))
         return
     }
 
@@ -56,7 +63,20 @@ async function _ipPoll () {
         logger.debug(`public ip is ${latest_public_ip}`)
     }
 
-    // logger.profile('ran ipPoll')
+    let currentHour = new Date().getHours()
+    if (currentHour != lastHour) {
+        lastHour = currentHour
+
+        let total = pollCounts.success + pollCounts.failure
+        let logMsg
+        logMsg = `it's top of the hour and we have polled ${total} times, `
+        logMsg += `there were ${pollCounts.failure} failures. the server ip `
+        logMsg += `is still ${domain_record.ip}.`
+        logger.info(logMsg)
+    }
+
+    pollCounts.success += 1
+    logger.debug(`updated pollCounts ${JSON.stringify(pollCounts)}`)
 }
 
 // setup the ip poll module
