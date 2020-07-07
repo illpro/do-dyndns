@@ -18,6 +18,7 @@ if (!DNS_NAME) {
     process.exit(1)
 }
 
+logger.ingo('---- starting main process ----')
 logger.info(`domain to update is ${DNS_DOMAIN}`)
 logger.info(`dns record name (subdomain) will be ${DNS_NAME}`)
 logger.info(`dns record ttl will be ${DNS_TTL} seconds`)
